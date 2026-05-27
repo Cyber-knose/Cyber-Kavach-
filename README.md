@@ -4,7 +4,7 @@
   <img src="kavach.png" alt="Cyber Kavach Banner" width="100%">
 </p>
 
-<h1 align="center">🛡️💻 Cyber Kavach – Ultimate C Security App</h1>
+<h1 align="center">🛡️💻 Cyber Kavach – Ultimate Digital Security App</h1>
 <p align="center"><b>Your Digital Shield Against Cyber Threats 🛡️🔐</b></p>
 
 ---
