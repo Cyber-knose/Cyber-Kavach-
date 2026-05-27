@@ -13,7 +13,7 @@ Live demo:------
 
 ## 🚀 How to Use
 
-### Step 1: Download Files Download `index.html` and `script.js`
+### Step 1: Download Files `index.html` and `script.js`
 
 ### Step 2: Open the App - Double-click `index.html` to open in browser
 
