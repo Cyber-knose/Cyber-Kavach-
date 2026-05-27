@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kavach - Password Shield</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap">
+    <style>
+        :root {
+            --bg-color: #05050a;
+            --neon-blue: #00f3ff;
+            --neon-glow: 0 0 10px rgba(0, 243, 255, 0.7);
+            --neon-glow-strong: 0 0 20px rgba(0, 243, 255, 0.9), 0 0 40px rgba(0, 243, 255, 0.5);
+            --glass: rgba(255, 255, 255, 0.05);
+            --text-color: #e0e0e0;
+            --danger: #ff0055;
+            --warning: #ffaa00;
+            --success: #00ff88;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 50%, #0a1525 0%, #05050a 100%);
+        }
+        header { text-align: center; margin-bottom: 30px; width: 100%; max-width: 600px; }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            text-shadow: var(--neon-glow-strong);
+            font-size: 3rem;
+            letter-spacing: 8px;
+            margin-bottom: 5px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { text-shadow: var(--neon-glow); }
+            50% { text-shadow: var(--neon-glow-strong); }
+        }
+        .tagline {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: #666;
+            letter-spacing: 3px;
+        }
+        .created-by {
+            color: #fff;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--neon-blue);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-top: 10px;
+        }
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 600px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        .section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+        }
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--neon-blue);
+            box-shadow: var(--neon-glow);
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            font-size: 1.1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            transition: 0.3s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: var(--neon-glow);
+        }
+        .input-group .toggle-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+        .input-group .toggle-btn:hover {
+            opacity: 1;
+        }
+        .strength-meter {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 3px;
+            transition: 0.3s;
+            box-shadow: var(--neon-glow);
+        }
+        .strength-bar.weak { width: 25%; background: var(--danger); }
+        .strength-bar.fair { width: 50%; background: var(--warning); }
+        .strength-bar.good { width: 75%; background: #aaff00; }
+        .strength-bar.strong { width: 100%; background: var(--success); }
+
+        .strength-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            text-align: right;
+            margin-bottom: 15px;
+        }
+        .strength-text.weak { color: var(--danger); }
+        .strength-text.fair { color: var(--warning); }
+        .strength-text.good { color: #aaff00; }
+        .strength-text.strong { color: var(--success); }
+
+        .criteria-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .criteria {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #666;
+            transition: 0.3s;
+        }
+        .criteria.met {
+            color: var(--success);
+        }
+        .criteria-icon {
+            font-size: 1rem;
+        }
+
+        .generated-password {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            text-align: center;
+            cursor: pointer;
+        }
+        .generated-password:hover {
+            border-color: var(--neon-blue);
+        }
+        .generated-password input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        .generated-password input:focus {
+            outline: none;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .option input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+        .option input[type="checkbox"]:checked {
+            background: var(--neon-blue);
+        }
+        .option input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #000;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .option label {
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+        .option-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        .option-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 243, 255, 0.2);
+            border-radius: 3px;
+            appearance: none;
+            cursor: pointer;
+        }
+        .option-group input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: var(--neon-glow);
+        }
+        .length-display {
+            text-align: right;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 15px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+            width: 100%;
+        }
+        .btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+        .btn-icon {
+            margin-right: 8px;
+        }
+
+        .copy-msg {
+            text-align: center;
+            color: var(--success);
+            font-size: 0.9rem;
+            height: 20px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .copy-msg.show {
+            opacity: 1;
+        }
+
+        .mahabharat-info {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 243, 255, 0.1);
+        }
+        .mahabharat-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .mahabharat-info p {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a10; }
+        ::-webkit-scrollbar-thumb { background: #005555; border-radius: 4px; }
+
+        @media (max-width: 600px) {
+            .logo { font-size: 2rem; }
+            .criteria-list { grid-template-columns: 1fr; }
+            .options-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">KAVACH</div>
+        <div class="tagline">PASSWORD SHIELD</div>
+        <div class="created-by">Created by Priyanshu Jangra</div>
+    </header>
+
+    <div class="app-container">
+        <!-- Password Strength Checker -->
+        <div class="section">
+            <div class="section-title">CHECK STRENGTH</div>
+            <div class="input-group">
+                <input type="password" id="passwordInput" placeholder="Enter your password...">
+                <button class="toggle-btn" onclick="togglePassword()">👁️</button>
+            </div>
+            <div class="strength-meter">
+                <div class="strength-bar" id="strengthBar"></div>
+            </div>
+            <div class="strength-text" id="strengthText">ENTER PASSWORD</div>
+            <div class="criteria-list" id="criteriaList">
+                <div class="criteria" id="lengthCriteria">
+                    <span class="criteria-icon">○</span>
+                    <span>At least 8 characters</span>
+                </div>
+                <div class="criteria" id="upperCriteria">
+                    <span class="criteria-icon">○</span>
+                    <span>Uppercase letter (A-Z)</span>
+                </div>
+                <div class="criteria" id="lowerCriteria">
+                    <span class="criteria-icon">○</span>
+                    <span>Lowercase letter (a-z)</span>
+                </div>
+                <div class="criteria" id="numberCriteria">
+                    <span class="criteria-icon">○</span>
+                    <span>Number (0-9)</span>
+                </div>
+                <div class="criteria" id="symbolCriteria">
+                    <span class="criteria-icon">○</span>
+                    <span>Symbol (!@#$%^&*)</span>
+                </div>
+                <div class="criteria" id="noCommonCriteria">
+                    <span class="criteria-icon">○</span>
+                    <span>Not a common password</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Generator -->
+        <div class="section">
+            <div class="section-title">GENERATE PASSWORD</div>
+            <div class="generated-password" onclick="copyPassword()">
+                <input type="text" id="generatedPassword" readonly placeholder="Click Generate">
+            </div>
+            <div class="options-grid">
+                <div class="option">
+                    <input type="checkbox" id="includeUpper" checked>
+                    <label for="includeUpper">Uppercase (A-Z)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="includeLower" checked>
+                    <label for="includeLower">Lowercase (a-z)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="includeNumber" checked>
+                    <label for="includeNumber">Numbers (0-9)</label>
+                </div>
+                <div class="option">
+                    <input type="checkbox" id="includeSymbol" checked>
+                    <label for="includeSymbol">Symbols (!@#$%)</label>
+                </div>
+            </div>
+            <div class="option-group">
+                <label>Password Length: <span class="length-display" id="lengthDisplay">16</span></label>
+                <input type="range" id="passwordLength" min="4" max="64" value="16">
+            </div>
+            <button class="btn" onclick="generatePassword()">
+                <span class="btn-icon">⚡</span>Generate Strong Password
+            </button>
+            <div class="copy-msg" id="copyMsg">✓ Copied to clipboard!</div>
+        </div>
+
+        <!-- Mahabharat Info -->
+        <div class="mahabharat-info">
+            <h3>🛡️ KAVACH (कवच)</h3>
+            <p>In Mahabharat, Kavach refers to an impenetrable armor or shield that protects warriors in battle. Just as Kavach shields warriors from harm, this tool shields your digital presence with unbreakable passwords.</p>
+        </div>
+    </div>
+
+    <script src="scipts.js"></script>
+</body>
+</html>
