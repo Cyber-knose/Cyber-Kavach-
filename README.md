@@ -15,7 +15,32 @@ Live demo:------
 
 ### Step 1: Download complete folder Files.
 
-### Step 2: Open the App - Double-click `index.html` to open in browser
+
+# ============================================
+# 🚀 CYBER KAVACH - SETUP COMMANDS
+# ============================================
+
+# 1️⃣ Install Git (if not installed)
+# Download from: https://git-scm.com
+
+# 2️⃣ Clone the repository
+git clone https://github.com/Cyber-knose/Cyber-Kavach-
+
+# 3️⃣ Navigate into the folder
+cd cyber-kavach-
+
+# 4️⃣ Show all files
+ls 
+
+# 5️⃣ If using npm - install dependencies
+npm install
+
+# 6️⃣ Run the development server
+npm start OR if already installed then open index.html
+
+# OR for production build
+npm run build
+
 
 ### Step 3: Check Password Strength
 1. Type password in the input box 
