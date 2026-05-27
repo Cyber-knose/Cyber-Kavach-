@@ -116,14 +116,12 @@ To bridge the gap between **technology 💻** and **security 🛡️**, making u
   <img src="https://img.shields.io/badge/HTML-5-orange?style=for-the-badge&logo=html5" />
   <img src="https://img.shields.io/badge/CSS-3-blue?style=for-the-badge&logo=css3" />
   <img src="https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript" />
-  <img src="https://img.shields.io/badge/Netlify-Deployment-00C7B7?style=for-the-badge&logo=netlify" />
 </p>
 
 - 💻 Languages: HTML, CSS, JavaScript  
 - ⚙️ Frameworks/Libraries: (React / Bootstrap / etc.)  
 - 🗄️ Database: (Firebase / MongoDB / etc.)  
-- 🌐 APIs: Security APIs, Authentication APIs  
-- 🚀 Deployment: Netlify  
+
 
 ---
 
