@@ -9,8 +9,6 @@
 
 ---
 
-Live demo:------
-
 ## 🚀 Live Demo
 
 **Click the button below to view the live application deployed on Netlify:**
@@ -18,48 +16,6 @@ Live demo:------
 <a href="https://cyberkavach.netlify.app/" target="_blank">
   <img src="https://img.shields.io/badge/-SEE%20LIVE%20APP-blue?style=for-the-badge&logo=netlify" alt="See Live App" />
 </a>
-
-## 🚀 How to Use
-
-### Step 1: Download complete folder Files.
-
-
-# ============================================
-# 🚀 CYBER KAVACH - SETUP COMMANDS
-# ============================================
-
-# 1️⃣ Install Git (if not installed)
-# Download from: https://git-scm.com
-
-# 2️⃣ Clone the repository
-git clone https://github.com/Cyber-knose/Cyber-Kavach-
-
-# 3️⃣ Navigate into the folder
-cd cyber-kavach-
-
-# 4️⃣ Show all files
-ls 
-
-# 5️⃣ If using npm - install dependencies
-npm install
-
-# 6️⃣ Run the development server
-npm start OR if already installed then open index.html
-
-# OR for production build
-npm run build
-
-
-### Step 3: Check Password Strength
-1. Type password in the input box 
-2. Watch the strength meter update
- 3. Click 👁️ to show/hide password
-    
- ### Step 4: Generate Password
- 1. Select character types
-2. Adjust password length
-3. Click "Generate Strong Password"
-4. Password is auto-copied!
 
 ---
 
