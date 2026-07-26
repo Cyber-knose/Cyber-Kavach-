@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kavach - Password Security Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 0%, #0a1525 0%, #0a0a0f 100%);
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0f; }
+        ::-webkit-scrollbar-thumb { background: #0ff; border-radius: 3px; box-shadow: 0 0 10px #0ff; }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(0,255,255,0.05), rgba(255,0,255,0.05));
+            border: 1px solid rgba(0,255,255,0.2);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,255,0.03) 0%, transparent 60%);
+            animation: headerGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes headerGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, #0ff, #f0f, #0ff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            letter-spacing: 6px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+            100% { background-position: 0% center; }
+        }
+
+        .header .subtitle {
+            margin-top: 10px;
+            font-size: 1em;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .header .subtitle span {
+            color: #0ff;
+            text-shadow: 0 0 10px rgba(0,255,255,0.5);
+        }
+
+        .header .credit {
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 2px;
+        }
+
+        .header .credit strong {
+            color: #f0f;
+            text-shadow: 0 0 10px rgba(255,0,255,0.5);
+        }
+
+        .header .kavach-tagline {
+            margin-top: 8px;
+            font-size: 0.75em;
+            color: rgba(0,255,255,0.5);
+            letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0ff, #f0f, transparent);
+            margin: 20px 0 30px;
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 10px 18px;
+            background: transparent;
+            border: 1px solid rgba(0,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.78em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .tab-btn:hover {
+            background: rgba(0,255,255,0.1);
+            border-color: #0ff;
+            color: #0ff;
+            box-shadow: 0 0 20px rgba(0,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: rgba(0,255,255,0.15);
+            border-color: #0ff;
+            color: #0ff;
+            box-shadow: 0 0 25px rgba(0,255,255,0.3), inset 0 0 25px rgba(0,255,255,0.05);
+        }
+
+        /* ===== TAB CONTENT ===== */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PANELS ===== */
+        .panel {
+            background: linear-gradient(135deg, rgba(0,255,255,0.03), rgba(255,0,255,0.03));
+            border: 1px solid rgba(0,255,255,0.15);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover {
+            border-color: rgba(0,255,255,0.3);
+            box-shadow: 0 0 30px rgba(0,255,255,0.05);
+        }
+
+        .panel h2 {
+            font-size: 1.2em;
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(0,255,255,0.3);
+        }
+
+        .panel h2 .icon {
+            margin-right: 10px;
+        }
+
+        .panel h3 {
+            font-size: 1em;
+            font-family: 'Orbitron', sans-serif;
+            color: #f0f;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        textarea, input[type="text"], input[type="password"], input[type="number"], select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0,255,255,0.2);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1em;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        textarea:focus, input[type="text"]:focus, input[type="password"]:focus, select:focus {
+            border-color: #0ff;
+            box-shadow: 0 0 20px rgba(0,255,255,0.15);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        textarea.output {
+            min-height: 80px;
+            background: rgba(0,0,0,0.7);
+            border-color: rgba(0,255,255,0.3);
+            color: #0ff;
+            cursor: text;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        select option { background: #0a0a0f; color: #e0e0e0; }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0ff, #00ccff);
+            color: #0a0a0f;
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(0,255,255,0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,0,255,0.4);
+            color: #f0f;
+            box-shadow: 0 0 15px rgba(255,0,255,0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,0,255,0.1);
+            box-shadow: 0 0 25px rgba(255,0,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #0f0, #00cc00);
+            color: #0a0a0f;
+            box-shadow: 0 0 20px rgba(0,255,0,0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(0,255,0,0.5);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f0f, #cc00cc);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255,0,255,0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(255,0,255,0.5);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.75em;
+        }
+
+        /* ===== STRENGTH METER ===== */
+        .strength-meter {
+            height: 8px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.4s ease, background 0.4s ease;
+            box-shadow: 0 0 15px rgba(0,255,255,0.3);
+        }
+
+        .strength-bar.weak { width: 20%; background: #ff0055; box-shadow: 0 0 15px rgba(255,0,85,0.5); }
+        .strength-bar.fair { width: 40%; background: #ff6600; box-shadow: 0 0 15px rgba(255,102,0,0.5); }
+        .strength-bar.good { width: 60%; background: #ffaa00; box-shadow: 0 0 15px rgba(255,170,0,0.5); }
+        .strength-bar.strong { width: 80%; background: #aaff00; box-shadow: 0 0 15px rgba(170,255,0,0.5); }
+        .strength-bar.very-strong { width: 100%; background: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.5); }
+
+        .strength-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .strength-text.weak { color: #ff0055; }
+        .strength-text.fair { color: #ff6600; }
+        .strength-text.good { color: #ffaa00; }
+        .strength-text.strong { color: #aaff00; }
+        .strength-text.very-strong { color: #00ff88; }
+
+        /* ===== CRITERIA LIST ===== */
+        .criteria-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .criteria {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #666;
+            transition: 0.3s;
+            padding: 4px 0;
+        }
+
+        .criteria.met { color: #00ff88; }
+        .criteria.fail { color: #ff0055; }
+
+        .criteria-icon { font-size: 1rem; min-width: 20px; text-align: center; }
+
+        /* ===== STAT CARDS ===== */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .stat-card {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(0,255,255,0.3);
+            box-shadow: 0 0 20px rgba(0,255,255,0.1);
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8em;
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            text-shadow: 0 0 15px rgba(0,255,255,0.3);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.75em;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card.danger .stat-value { color: #ff0055; text-shadow: 0 0 15px rgba(255,0,85,0.3); }
+        .stat-card.success .stat-value { color: #00ff88; text-shadow: 0 0 15px rgba(0,255,136,0.3); }
+        .stat-card.warning .stat-value { color: #ffaa00; text-shadow: 0 0 15px rgba(255,170,0,0.3); }
+
+        /* ===== BRUTE FORCE TABLE ===== */
+        .brute-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .brute-table th, .brute-table td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,255,255,0.1);
+            font-size: 0.85em;
+        }
+
+        .brute-table th {
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            font-size: 0.75em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .brute-table tr:hover td {
+            background: rgba(0,255,255,0.05);
+        }
+
+        .brute-table .time-value {
+            font-family: 'JetBrains Mono', monospace;
+            color: #f0f;
+        }
+
+        .brute-table .instant { color: #ff0055; }
+        .brute-table .fast { color: #ff6600; }
+        .brute-table .moderate { color: #ffaa00; }
+        .brute-table .slow { color: #aaff00; }
+        .brute-table .impossible { color: #00ff88; }
+
+        /* ===== OPTIONS GRID ===== */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .option input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #0ff;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .option input[type="checkbox"]:checked {
+            background: #0ff;
+        }
+
+        .option input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #000;
+            font-size: 14px;
+            font-weight: 700;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* ===== PASSWORD DISPLAY ===== */
+        .password-display {
+            background: rgba(0,0,0,0.5);
+            padding: 18px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(0,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .password-display:hover {
+            border-color: #0ff;
+            box-shadow: 0 0 20px rgba(0,255,255,0.1);
+        }
+
+        .password-display input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #0ff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            text-align: center;
+            letter-spacing: 2px;
+            outline: none;
+        }
+
+        .password-display .copy-icon {
+            color: rgba(0,255,255,0.5);
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .password-display:hover .copy-icon {
+            color: #0ff;
+        }
+
+        /* ===== RANGE SLIDER ===== */
+        .range-group {
+            margin: 15px 0;
+        }
+
+        .range-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .range-group .range-value {
+            font-family: 'Orbitron', sans-serif;
+            color: #0ff;
+            font-size: 1em;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: rgba(0,255,255,0.2);
+            border-radius: 3px;
+            appearance: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #0ff;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0,255,255,0.5);
+            cursor: pointer;
+        }
+
+        /* ===== RESULTS BOX ===== */
+        .result-box {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(0,255,255,0.15);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            min-height: 50px;
+        }
+
+        .result-box .result-label {
+            font-size: 0.75em;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .result-box .result-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: #0ff;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+
+        .result-box .result-content.danger { color: #ff0055; }
+        .result-box .result-content.success { color: #00ff88; }
+        .result-box .result-content.warning { color: #ffaa00; }
+
+        /* ===== MUTATION VARIANTS ===== */
+        .variant-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .variant-item {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            color: #f0f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            word-break: break-all;
+        }
+
+        .variant-item:hover {
+            border-color: #0ff;
+            box-shadow: 0 0 15px rgba(0,255,255,0.1);
+        }
+
+        .variant-item .variant-label {
+            font-size: 0.7em;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* ===== RAINBOW TABLE ===== */
+        .rainbow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .rainbow-item {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 4px;
+            padding: 8px 10px;
+            font-size: 0.75em;
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-all;
+            transition: all 0.3s ease;
+        }
+
+        .rainbow-item .hash-val { color: #0ff; }
+        .rainbow-item .pass-val { color: #f0f; margin-top: 3px; font-size: 0.9em; }
+        .rainbow-item.found { border-color: #00ff88; background: rgba(0,255,136,0.05); }
+        .rainbow-item.found .pass-val { color: #00ff88; }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            background: rgba(0,0,0,0.95);
+            border: 1px solid #0ff;
+            border-radius: 8px;
+            color: #0ff;
+            font-size: 0.9em;
+            box-shadow: 0 0 30px rgba(0,255,255,0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            z-index: 9999;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            border-color: #ff0055;
+            color: #ff0055;
+            box-shadow: 0 0 30px rgba(255,0,85,0.2);
+        }
+
+        .toast.success {
+            border-color: #00ff88;
+            color: #00ff88;
+            box-shadow: 0 0 30px rgba(0,255,136,0.2);
+        }
+
+        /* ===== SIMILARITY METER ===== */
+        .similarity-meter {
+            height: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .similarity-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 0.5s ease, background 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75em;
+            font-family: 'Orbitron', sans-serif;
+            color: #000;
+        }
+
+        /* ===== BADGE ===== */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-success { background: rgba(0,255,136,0.15); color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+        .badge-danger { background: rgba(255,0,85,0.15); color: #ff0055; border: 1px solid rgba(255,0,85,0.3); }
+        .badge-warning { background: rgba(255,170,0,0.15); color: #ffaa00; border: 1px solid rgba(255,170,0,0.3); }
+        .badge-info { background: rgba(0,255,255,0.15); color: #0ff; border: 1px solid rgba(0,255,255,0.3); }
+
+        /* ===== KEYBOARD PATTERN VIS ===== */
+        .pattern-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .pattern-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,255,255,0.1);
+            border-radius: 6px;
+        }
+
+        .pattern-row .pattern-name {
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.6);
+            min-width: 120px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pattern-row .pattern-status {
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .pattern-row .pattern-detail {
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.4);
+            margin-left: auto;
+        }
+
+        /* ===== INFO BOX ===== */
+        .info-box {
+            background: rgba(0,255,255,0.05);
+            border: 1px solid rgba(0,255,255,0.15);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.85em;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .info-box strong {
+            color: #0ff;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(0,255,255,0.1);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+
+        .footer strong {
+            color: #f0f;
+            text-shadow: 0 0 10px rgba(255,0,255,0.3);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; letter-spacing: 3px; }
+            .tab-btn { padding: 8px 12px; font-size: 0.7em; }
+            .panel { padding: 18px; }
+            .criteria-list { grid-template-columns: 1fr; }
+            .options-grid { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .variant-list { grid-template-columns: 1fr; }
+            .rainbow-grid { grid-template-columns: 1fr 1fr; }
+            .btn-group { flex-direction: column; }
+            .btn { width: 100%; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .header h1 { font-size: 1.5em; letter-spacing: 2px; }
+            .header .subtitle { font-size: 0.7em; letter-spacing: 3px; }
+            .panel h2 { font-size: 1em; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .rainbow-grid { grid-template-columns: 1fr; }
+            .brute-table th, .brute-table td { padding: 6px 8px; font-size: 0.7em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <h1>🛡️ KAVACH</h1>
+            <div class="subtitle">Password <span>Security</span> Suite</div>
+            <div class="kavach-tagline">कवच — Impenetrable Digital Armor</div>
+            <div class="credit">Created by <strong>Priyanshu Jangra</strong></div>
+        </header>
+
+        <div class="divider"></div>
+
+        <!-- ===== TABS ===== -->
+        <nav class="tabs" id="tabs">
+            <button class="tab-btn active" data-tab="checker">🔐 Checker</button>
+            <button class="tab-btn" data-tab="entropy">📊 Entropy</button>
+            <button class="tab-btn" data-tab="bruteforce">⚡ Brute-Force</button>
+            <button class="tab-btn" data-tab="dictionary">📖 Dictionary</button>
+            <button class="tab-btn" data-tab="mutation">🧬 Mutation</button>
+            <button class="tab-btn" data-tab="history">📋 History</button>
+            <button class="tab-btn" data-tab="rainbow">🌈 Rainbow</button>
+            <button class="tab-btn" data-tab="breach">🚨 Breach</button>
+            <button class="tab-btn" data-tab="generator">🎲 Generator</button>
+            <button class="tab-btn" data-tab="leetspeak">💬 Leetspeak</button>
+            <button class="tab-btn" data-tab="keyboard">⌨️ Patterns</button>
+        </nav>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: PASSWORD STRENGTH CHECKER                              -->
+        <!-- ============================================================ -->
+        <div class="tab-content active" id="tab-checker">
+            <div class="panel">
+                <h2><span class="icon">🔐</span> Password Strength Checker</h2>
+                <div class="form-group">
+                    <label for="checker-input">Enter Password</label>
+                    <input type="text" id="checker-input" placeholder="Type a password to analyze...">
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-bar" id="checker-bar"></div>
+                </div>
+                <div class="strength-text" id="checker-text">ENTER PASSWORD</div>
+                <div class="criteria-list" id="checker-criteria">
+                    <div class="criteria" id="check-len"><span class="criteria-icon">○</span><span>At least 8 characters</span></div>
+                    <div class="criteria" id="check-upper"><span class="criteria-icon">○</span><span>Uppercase (A-Z)</span></div>
+                    <div class="criteria" id="check-lower"><span class="criteria-icon">○</span><span>Lowercase (a-z)</span></div>
+                    <div class="criteria" id="check-number"><span class="criteria-icon">○</span><span>Number (0-9)</span></div>
+                    <div class="criteria" id="check-symbol"><span class="criteria-icon">○</span><span>Symbol (!@#$%^&*)</span></div>
+                    <div class="criteria" id="check-common"><span class="criteria-icon">○</span><span>Not common password</span></div>
+                </div>
+                <div class="result-box" id="checker-result" style="display:none;">
+                    <div class="result-label">Analysis</div>
+                    <div class="result-content" id="checker-detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: ENTROPY                                                -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-entropy">
+            <div class="panel">
+                <h2><span class="icon">📊</span> Password Entropy Calculator</h2>
+                <div class="info-box">
+                    <strong>Shannon Entropy</strong> measures the information density of a password in <strong>bits</strong>. Higher entropy means harder to guess. General rule: 60+ bits is considered secure.
+                </div>
+                <div class="form-group">
+                    <label for="entropy-input">Enter Password</label>
+                    <input type="text" id="entropy-input" placeholder="Type password to calculate entropy...">
+                </div>
+                <div class="stat-grid" id="entropy-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="entropy-bits">0</div>
+                        <div class="stat-label">Entropy (bits)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="entropy-charset">0</div>
+                        <div class="stat-label">Character Set Size</div>
+                    </div>
+                    <div class="stat-card" id="entropy-card-grade">
+                        <div class="stat-value" id="entropy-grade">-</div>
+                        <div class="stat-label">Grade</div>
+                    </div>
+                    <div class="stat-card" id="entropy-card-time">
+                        <div class="stat-value" id="entropy-time">-</div>
+                        <div class="stat-label">Time to Crack (1B/s)</div>
+                    </div>
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-bar" id="entropy-bar"></div>
+                </div>
+                <div class="result-box" id="entropy-detail-box" style="display:none;">
+                    <div class="result-label">Detailed Analysis</div>
+                    <div class="result-content" id="entropy-detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: BRUTE-FORCE TIME ESTIMATION                            -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-bruteforce">
+            <div class="panel">
+                <h2><span class="icon">⚡</span> Brute-Force Time Estimation</h2>
+                <div class="info-box">
+                    Estimates time to crack a password via brute-force at various speeds. <strong>Assumes perfect knowledge of character set</strong> used.
+                </div>
+                <div class="form-group">
+                    <label for="brute-password">Password</label>
+                    <input type="text" id="brute-password" placeholder="Enter password to estimate...">
+                </div>
+                <div class="form-group">
+                    <label for="brute-charset">Character Set</label>
+                    <select id="brute-charset">
+                        <option value="numeric">Numeric (0-9) — 10 chars</option>
+                        <option value="lower">Lowercase (a-z) — 26 chars</option>
+                        <option value="lower-num">Lowercase + Numbers — 36 chars</option>
+                        <option value="upper-lower">Upper + Lower — 52 chars</option>
+                        <option value="alphanumeric">Alphanumeric — 62 chars</option>
+                        <option value="alphanumeric-symbol" selected>Alphanumeric + Symbols — 95 chars</option>
+                        <option value="all">All Printable — 95 chars</option>
+                    </select>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="estimateBruteForce()">⚡ Estimate</button>
+                    <button class="btn btn-secondary" onclick="autoDetectCharset()">🎯 Auto-Detect</button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="brute-table" id="brute-table">
+                        <thead>
+                            <tr>
+                                <th>Attack Speed</th>
+                                <th>Time to Crack</th>
+                                <th>Feasibility</th>
+                            </tr>
+                        </thead>
+                        <tbody id="brute-body">
+                            <tr><td>100 B/s (Human)</td><td class="time-value">—</td><td>—</td></tr>
+                            <tr><td>10 M/s (CPU)</td><td class="time-value">—</td><td>—</td></tr>
+                            <tr><td>1 B/s (GPU)</td><td class="time-value">—</td><td>—</td></tr>
+                            <tr><td>100 B/s (GPU Cluster)</td><td class="time-value">—</td><td>—</td></tr>
+                            <tr><td>1 T/s (ASIC/Cloud)</td><td class="time-value">—</td><td>—</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="result-box" id="brute-result" style="display:none;">
+                    <div class="result-label">Verdict</div>
+                    <div class="result-content" id="brute-verdict"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: DICTIONARY ATTACK                                      -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-dictionary">
+            <div class="panel">
+                <h2><span class="icon">📖</span> Dictionary Attack Simulation</h2>
+                <div class="info-box">
+                    Checks if your password appears in a database of <strong>10,000+ common passwords</strong> used in real-world dictionary attacks.
+                </div>
+                <div class="form-group">
+                    <label for="dict-password">Enter Password</label>
+                    <input type="text" id="dict-password" placeholder="Enter password to check...">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="dictionaryAttack()">📖 Simulate Attack</button>
+                </div>
+                <div class="stat-grid" id="dict-stats" style="display:none;">
+                    <div class="stat-card" id="dict-card-found">
+                        <div class="stat-value" id="dict-found">-</div>
+                        <div class="stat-label">Status</div>
+                    </div>
+                    <div class="stat-card" id="dict-card-variants">
+                        <div class="stat-value" id="dict-variants">0</div>
+                        <div class="stat-label">Similar Variants Found</div>
+                    </div>
+                    <div class="stat-card" id="dict-card-rank">
+                        <div class="stat-value" id="dict-rank">-</div>
+                        <div class="stat-label">Approx. Rank</div>
+                    </div>
+                </div>
+                <div class="result-box" id="dict-result" style="display:none;">
+                    <div class="result-label">Attack Result</div>
+                    <div class="result-content" id="dict-detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 5: PASSWORD MUTATION                                      -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-mutation">
+            <div class="panel">
+                <h2><span class="icon">🧬</span> Password Mutation Generator</h2>
+                <div class="info-box">
+                    Generates common password mutations used by attackers to crack variations of known passwords. Use this to see how your password could be mutated.
+                </div>
+                <div class="form-group">
+                    <label for="mut-password">Base Password</label>
+                    <input type="text" id="mut-password" placeholder="Enter base password...">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generateMutations()">🧬 Generate Mutations</button>
+                    <button class="btn btn-secondary" onclick="clearMutations()">✕ Clear</button>
+                </div>
+                <div id="mutations-container">
+                    <div class="result-box">
+                        <div class="result-label">Mutations will appear here</div>
+                        <div class="result-content" style="color:rgba(255,255,255,0.3);">Enter a password and click Generate...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 6: PASSWORD HISTORY COMPARISON                            -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-history">
+            <div class="panel">
+                <h2><span class="icon">📋</span> Password History Comparison</h2>
+                <div class="info-box">
+                    Compare a new password against old passwords using <strong>Levenshtein distance</strong> and <strong>similarity scoring</strong>. Helps ensure you're not reusing similar passwords.
+                </div>
+                <div class="form-group">
+                    <label for="hist-old">Old Password(s) — one per line</label>
+                    <textarea id="hist-old" placeholder="Enter old passwords, one per line..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="hist-new">New Password</label>
+                    <input type="text" id="hist-new" placeholder="Enter new password to compare...">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="compareHistory()">📋 Compare</button>
+                    <button class="btn btn-secondary" onclick="clearHistory()">✕ Clear</button>
+                </div>
+                <div id="history-results"></div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 7: RAINBOW TABLE DEMONSTRATION                            -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-rainbow">
+            <div class="panel">
+                <h2><span class="icon">🌈</span> Rainbow Table Demonstration</h2>
+                <div class="info-box">
+                    Demonstrates how rainbow tables work: passwords are pre-hashed and stored. Enter a password to see how it would appear in a rainbow table lookup.
+                </div>
+                <div class="form-group">
+                    <label for="rainbow-password">Password to Look Up</label>
+                    <input type="text" id="rainbow-password" placeholder="Enter password...">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="rainbowLookup()">🌈 Simulate Lookup</button>
+                    <button class="btn btn-secondary" onclick="generateRainbowSample()">🎲 Show Sample Table</button>
+                </div>
+                <div class="stat-grid" id="rainbow-stats" style="display:none;">
+                    <div class="stat-card" id="rainbow-card-md5">
+                        <div class="stat-value" id="rainbow-md5" style="font-size:1.2em;">-</div>
+                        <div class="stat-label">MD5 Hash</div>
+                    </div>
+                    <div class="stat-card" id="rainbow-card-sha1">
+                        <div class="stat-value" id="rainbow-sha1" style="font-size:1.2em;">-</div>
+                        <div class="stat-label">SHA-1 Hash</div>
+                    </div>
+                    <div class="stat-card" id="rainbow-card-status">
+                        <div class="stat-value" id="rainbow-status">-</div>
+                        <div class="stat-label">Rainbow Table Status</div>
+                    </div>
+                </div>
+                <div class="result-box" id="rainbow-table-box">
+                    <div class="result-label">Rainbow Table Sample</div>
+                    <div class="rainbow-grid" id="rainbow-table"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 8: BREACH SIMULATION                                      -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-breach">
+            <div class="panel">
+                <h2><span class="icon">🚨</span> Breach Simulation</h2>
+                <div class="info-box">
+                    Checks your password against a simulated database of <strong>known breached credentials</strong> from major data breaches. If found, <strong>DO NOT USE</strong> this password anywhere.
+                </div>
+                <div class="form-group">
+                    <label for="breach-password">Enter Password</label>
+                    <input type="text" id="breach-password" placeholder="Enter password to check...">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-danger" onclick="simulateBreach()">🚨 Check for Breaches</button>
+                </div>
+                <div class="stat-grid" id="breach-stats" style="display:none;">
+                    <div class="stat-card" id="breach-card-count">
+                        <div class="stat-value" id="breach-count">0</div>
+                        <div class="stat-label">Times Breached (Simulated)</div>
+                    </div>
+                    <div class="stat-card" id="breach-card-risk">
+                        <div class="stat-value" id="breach-risk">-</div>
+                        <div class="stat-label">Risk Level</div>
+                    </div>
+                    <div class="stat-card" id="breach-card-suggest">
+                        <div class="stat-value" id="breach-suggest" style="font-size:0.9em;">-</div>
+                        <div class="stat-label">Suggestion</div>
+                    </div>
+                </div>
+                <div class="result-box" id="breach-detail-box" style="display:none;">
+                    <div class="result-label">Breach Report</div>
+                    <div class="result-content" id="breach-detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 9: PASSWORD GENERATOR                                     -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-generator">
+            <div class="panel">
+                <h2><span class="icon">🎲</span> Password Generator</h2>
+                <div class="info-box">
+                    Generate cryptographically strong random passwords. Use the options below to customize character types and length.
+                </div>
+                <div class="password-display" onclick="copyGenPassword()">
+                    <input type="text" id="gen-password" readonly placeholder="Click Generate...">
+                    <span class="copy-icon">📋</span>
+                </div>
+                <div class="strength-meter">
+                    <div class="strength-bar" id="gen-bar"></div>
+                </div>
+                <div class="strength-text" id="gen-text">READY</div>
+                <div class="options-grid">
+                    <div class="option">
+                        <input type="checkbox" id="gen-upper" checked>
+                        <label for="gen-upper">Uppercase (A-Z)</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="gen-lower" checked>
+                        <label for="gen-lower">Lowercase (a-z)</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="gen-number" checked>
+                        <label for="gen-number">Numbers (0-9)</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="gen-symbol" checked>
+                        <label for="gen-symbol">Symbols (!@#$%)</label>
+                    </div>
+                    <div class="option">
+                        <input type="checkbox" id="gen-ambiguous">
+                        <label for="gen-ambiguous">Avoid Ambiguous (il1o0O)</label>
+                    </div>
+                </div>
+                <div class="range-group">
+                    <label>
+                        <span>Password Length</span>
+                        <span class="range-value" id="gen-length-label">16</span>
+                    </label>
+                    <input type="range" id="gen-length" min="4" max="64" value="16">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="generatePassword()">🎲 Generate</button>
+                    <button class="btn btn-success" onclick="copyGenPassword()">📋 Copy</button>
+                </div>
+                <div class="result-box" style="margin-top:15px;display:none;" id="gen-result-box">
+                    <div class="result-label">Generated Password Info</div>
+                    <div class="result-content" id="gen-info"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 10: LEETSPEAK CONVERTER                                   -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-leetspeak">
+            <div class="panel">
+                <h2><span class="icon">💬</span> Leetspeak Converter</h2>
+                <div class="info-box">
+                    Convert text to <strong>Leetspeak (1337 5P34K)</strong> and back. Leetspeak replaces letters with similar-looking numbers/symbols.
+                </div>
+                <div class="form-group">
+                    <label for="leet-input">Text</label>
+                    <textarea id="leet-input" placeholder="Enter text to convert to/from leetspeak..." rows="3"></textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="toLeetspeak()">⬇ To Leetspeak</button>
+                    <button class="btn btn-success" onclick="fromLeetspeak()">⬆ From Leetspeak</button>
+                    <button class="btn btn-secondary" onclick="clearLeet()">✕ Clear</button>
+                </div>
+                <div class="range-group">
+                    <label>
+                        <span>Leetspeak Level</span>
+                        <span class="range-value" id="leet-level-label">Basic</span>
+                    </label>
+                    <input type="range" id="leet-level" min="1" max="3" value="1">
+                </div>
+                <div class="form-group">
+                    <label for="leet-output">Output</label>
+                    <textarea id="leet-output" class="output" placeholder="Result will appear here..." readonly rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 11: KEYBOARD PATTERN DETECTION                            -->
+        <!-- ============================================================ -->
+        <div class="tab-content" id="tab-keyboard">
+            <div class="panel">
+                <h2><span class="icon">⌨️</span> Keyboard Pattern Detection</h2>
+                <div class="info-box">
+                    Detects common <strong>keyboard patterns</strong> that make passwords weak: QWERTY sequences, sequential characters, repeated characters, and more.
+                </div>
+                <div class="form-group">
+                    <label for="kbd-password">Enter Password</label>
+                    <input type="text" id="kbd-password" placeholder="Enter password to analyze...">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="detectPatterns()">⌨️ Detect Patterns</button>
+                </div>
+                <div class="stat-grid" id="kbd-stats" style="display:none;">
+                    <div class="stat-card" id="kbd-card-patterns">
+                        <div class="stat-value" id="kbd-count">0</div>
+                        <div class="stat-label">Patterns Found</div>
+                    </div>
+                    <div class="stat-card" id="kbd-card-score">
+                        <div class="stat-value" id="kbd-score">100%</div>
+                        <div class="stat-label">Pattern Strength</div>
+                    </div>
+                </div>
+                <div class="pattern-info" id="kbd-patterns"></div>
+                <div class="result-box" id="kbd-result" style="display:none;">
+                    <div class="result-label">Pattern Analysis</div>
+                    <div class="result-content" id="kbd-detail"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            🛡️ Kavach (कवच) &bull; Password Security Suite &bull; Created by <strong>Priyanshu Jangra</strong>
+        </footer>
+
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="scripts.js"></script>
+</body>
+</html>
+
