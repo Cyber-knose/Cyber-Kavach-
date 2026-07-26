@@ -13,8 +13,8 @@
 
 **Click the button below to view the live application deployed on Netlify:**
 
-<a href="https://cyberkavach.netlify.app/" target="_blank">
-  <img src="https://img.shields.io/badge/-SEE%20LIVE%20APP-blue?style=for-the-badge&logo=netlify" alt="See Live App" />
+<a href="https://nextgensecurities.in/tools/kavach/" target="_blank">
+  <img src="https://img.shields.io/badge/-SEE%20LIVE%20APP-blue?style=for-the-badge&logo=app" alt="See Live App" />
 </a>
 
 ---
@@ -26,33 +26,18 @@ This platform helps users stay secure online, generate strong passwords, and mak
 
 ---
 
-## ⚡ Features
+## ✨ Features
 
-### 🔐 Password Generator
-- Generate strong & secure passwords 🛡️  
-- Protect all your accounts → Maximum security 💪  
-
-### 🔒 Security Scanner
-- Scan devices for vulnerabilities 📱  
-- Find & fix security gaps → Complete protection ✅  
-
-### 🛡️ Cyber Awareness
-- Learn about latest cyber threats ⚠️  
-- Stay informed about frauds, phishing & scams 🚨  
-
-### 🔍 Privacy Checker
-- Check if your data has been leaked 🔎  
-- Monitor email & phone for breaches 📊  
-
-### 🌐 Safe Browsing Guide
-- Best practices for secure internet usage 💻  
-- Protect personal & financial data 💳  
-
-### 📂 Data Protection Tips
-- Secure your important documents 📑  
-- Safe, secure & organized digital life 🔐  
-
----
+- 🔐 **Advanced Password Generator** – Generate strong, customizable, and highly secure passwords.
+- 📊 **Password Entropy Analysis** – Measure password strength using entropy calculations.
+- ⚡ **Brute-Force Time Estimator** – Estimate how long a password can resist cracking attacks.
+- 📖 **Dictionary Attack Simulator** – Check vulnerability against common password dictionaries.
+- 🌈 **Rainbow Table Demonstration** – Understand how precomputed hash attacks work.
+- 🔄 **Password Mutation Analysis** – Analyze password variations and predictability.
+- 🛡️ **Breach Exposure Simulation** – Simulate risks of compromised passwords.
+- 🔤 **Leetspeak Detection** – Identify weak character substitutions (e.g., `P@ssw0rd`).
+- ⌨️ **Keyboard Pattern Detection** – Detect predictable patterns like `qwerty` and `123456`.
+- 📈 **Comprehensive Security Insights** – Receive detailed recommendations to improve password security.
 
 ## 🔐🌐 Cyber Awareness for Everyone
 
@@ -89,25 +74,14 @@ To bridge the gap between **technology 💻** and **security 🛡️**, making u
 
 ---
 
-## 🚀 Future Enhancements
-- 🔐 Password Manager integration  
-- 📱 Mobile security app version  
-- 🌐 VPN integration  
-- 🤖 AI-based threat detection  
-- 🔔 Real-time breach alerts  
-- 📢 Latest cyber threat notifications  
-
----
-
 ## 👨‍💻 Author
 **Priyanshu Jangra**  
 💻 Cyber Security Expert | Developer  
 
 ---
 
-## 🤝 Contribution
-Contributions are welcome!  
-Fork 🍴 this repo and submit a PR 🚀  
+
+Fork 🍴 this repo  🚀  
 
 ---
 
@@ -117,4 +91,4 @@ If you like this project, give it a **star ⭐** and share it!
 ---
 
 ## 📜 License
-MIT License 📄
+ALL RIGHTS ARE RESERVED
